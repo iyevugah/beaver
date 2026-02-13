@@ -141,6 +141,7 @@ BVRTL2020ModelUpdate::creepRateMunsonDawson(const std::vector<ADReal> & creep_st
 {
   ADReal q = _eqv_stress_tr - 3.0 * _G * (creep_strain_incr[0] + creep_strain_incr[1]);
   ADReal saturation_strain = (q != 0.0) ? std::pow(q / _A1, _n1) : 1.0e+06;
+  // ADReal saturation_strain = (_eqv_stress_tr != 0.0) ? std::pow(_eqv_stress_tr / _A1, _n1) : 1.0e+06;
 
   ADReal gamma_ms = 1.0e+06 * munsondawsonCreepStrain(creep_strain_incr);
 
@@ -212,6 +213,7 @@ BVRTL2020ModelUpdate::creepRateMunsonDawsonDerivative(const std::vector<ADReal> 
 {
   ADReal q = _eqv_stress_tr - 3.0 * _G * (creep_strain_incr[0] + creep_strain_incr[1]);
   ADReal saturation_strain = (q != 0.0) ? std::pow(q / _A1, _n1) : 1.0e+06;
+  // ADReal saturation_strain = (_eqv_stress_tr != 0.0) ? std::pow(_eqv_stress_tr / _A1, _n1) : 1.0e+06;
 
   ADReal gamma_ms = 1.0e+06 * munsondawsonCreepStrain(creep_strain_incr);
 
@@ -269,7 +271,7 @@ BVRTL2020ModelUpdate::postReturnMap(const std::vector<ADReal> & creep_strain_inc
 {
   _eqv_creep_strain_L[_qp] = lemaitreCreepStrain(creep_strain_incr);
   _eqv_creep_strain_R[_qp] = munsondawsonCreepStrain(creep_strain_incr);
-  // _vol_creep_strain[_qp] = volumetricCreepStrain(creep_strain_incr);
+  _vol_creep_strain[_qp] = volumetricCreepStrain(creep_strain_incr);
 }
 
 void
